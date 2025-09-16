@@ -1,29 +1,33 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        int fileCounter = 0;
+        int dirCounter  = 0;
 
-        // Ввод первого числа
-        System.out.print("Введите первое число: ");
-        int firstNumber = scanner.nextInt();
+        while (true) {
+            System.out.print("Введите путь к файлу или папке (или exit): ");
+            String path = sc.nextLine().trim();
+            if (path.equalsIgnoreCase("exit")) {
+                System.out.println("Итог: файлов = " + fileCounter + ", папок = " + dirCounter);
+                break;
+            }
 
-        // Ввод второго числа
-        System.out.print("Введите второе число: ");
-        int secondNumber = scanner.nextInt();
+            File f = new File(path);
+            if (!f.exists()) {
+                System.out.println("Путь не существует. Попробуйте снова.");
+                continue;
+            }
 
-        // Вычисления
-        int sum = firstNumber + secondNumber;
-        int difference = firstNumber - secondNumber;
-        int product = firstNumber * secondNumber;
-        double quotient = (double) firstNumber / secondNumber;
-
-        // Вывод результатов
-        System.out.println("Сумма: " + sum);
-        System.out.println("Разность: " + difference);
-        System.out.println("Произведение: " + product);
-        System.out.println("Частное: " + quotient);
-
-        scanner.close();
+            if (f.isDirectory()) {
+                dirCounter++;
+                System.out.println("Папка найдена. Это папка № " + dirCounter);
+            } else {
+                fileCounter++;
+                System.out.println("Файл найден. Это файл № " + fileCounter);
+            }
+        }
     }
 }
